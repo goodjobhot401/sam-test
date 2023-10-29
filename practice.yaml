@@ -1,0 +1,150 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: OpenApiTest
+  description: Yung's API practice
+  license:
+    name: MIT
+paths:
+  /hello:
+    get:
+      summary: Hello world!
+      operationId: print Hello world
+      tags:
+        - users
+      responses:
+        "200":
+          description: Print Hello world successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              example:
+                message: "Hello world successful"
+        "401":
+          description: Unauthorized - Token is missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              example:
+                message: "Unauthorized - Token is missing or invalid"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              example:
+                message: "Internal server error"
+
+  /tasks:
+    get:
+      summary: User gets all tasks
+      operationId: listTasks
+      tags:
+        - tasks
+      responses:
+        "200":
+          description: A list of tasks
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "401":
+          description: Unauthorized - Token is missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              example:
+                message: "Unauthorized - Token is missing or invalid"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              example:
+                message: "Task not foundt"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              example:
+                message: "Internal server error"
+
+  /tasks/{id}:
+    get:
+      summary: User gets the task by id
+      operationId: getTask
+      tags:
+        - tasks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the task to retrieve
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Task retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "401":
+          description: Unauthorized - Token is missing or invalid
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              example:
+                message: "Unauthorized - Token is missing or invalid"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              example:
+                message: "Task not found"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+              example:
+                message: "Internal server error"
+
+components:
+  schemas:
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1
+          enum: [1, 2, 3, ...]
+        title:
+          type: string
+          example: Task for practice
+        description:
+          type: string
+          example: This is a task in an OpenAPI 3.0 practice
+        status:
+          type: string
+          example: 已完成
+          enum:
+            - 已完成
+            - 未完成
